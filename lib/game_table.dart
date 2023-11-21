@@ -2,41 +2,25 @@ import 'package:flutter/material.dart';
 import 'game_card.dart';
 
 class GameTable extends StatelessWidget {
-  final _icons = <IconData>[Icons.plus_one];
-  final state = _GameTable();
+  static final _icons = <IconData>[
+    Icons.plus_one,
+    Icons.abc,
+    Icons.access_time,
+    Icons.account_balance,
+  ];
 
-  GameTable({super.key}) {
-    _icons.addAll(_icons); // Duplica ícones
-    _icons.shuffle(); // Embaralha a lista
-  }
+  const GameTable({super.key});
 
   @override
-  Widget build(BuildContext context) => GridView.count(
+  Widget build(BuildContext context) {
+    List<IconData> icons = [..._icons, ..._icons]; // Duplica ícones
+    icons.shuffle(); // Embaralha a lista
+
+    return GridView.count(
       crossAxisCount: 6,
       children: List.generate(
-          _icons.length,
-          (index) => GameCard(
-              icon: _icons[index]) // Emite uma carta para cada ícone da lista
-          ));
-}
-
-class _GameTable {
-  final cardStack = GameCardStack();
-
-  bool isEquals() => cardStack.get(0) == cardStack.get(1);
-  bool compare(GameCard card, int index) => card == cardStack.get(index);
-}
-
-class GameCardStack {
-  final _stack = <GameCard>[];
-
-  void add(GameCard card) =>
-      _stack.length < 2 ? _stack.add(card) : throw Exception("Pilha cheia");
-
-  GameCard get(int index) =>
-      _stack.isNotEmpty ? _stack[index] : throw Exception("Pilha vazia");
-
-  void clear() => _stack.clear();
-
-  int length() => _stack.length;
+          icons.length,
+          (index) => GameCard(icon: icons[index]) // Emite uma carta para cada ícone da lista
+        ));
+  }
 }

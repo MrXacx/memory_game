@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:memory_game/game_table.dart';
 
 void main() {
   runApp(const App());
@@ -10,7 +11,9 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Scaffold(body: Center()),
+      home: Scaffold(body: Center(
+        child: GameTable(),
+      )),
     );
   }
 }

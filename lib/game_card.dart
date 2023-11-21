@@ -5,6 +5,7 @@ class GameCard extends StatelessWidget {
   late IconData icon, _storedIcon;
 
   GameCard({super.key, required IconData icon}) {
+    this.icon = icon;
     _storedIcon = icon;
   }
 
