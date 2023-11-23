@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memory_game/scripts/game.dart';
+import 'package:memory_game/scripts/engine.dart';
 import 'package:memory_game/widgets/game_table.dart';
 
 void main() {
