@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:memory_game/scripts/engine.dart';
 import 'game_card.dart';
 
 // ignore: must_be_immutable
 class GameTable extends StatelessWidget {
+  GameEngine engine = GameEngine(); // Suporte ao funcionamento do jogo
   late List<String> _icons;
 
   GameTable({super.key, required List<String> icons}) {
@@ -17,8 +19,9 @@ class GameTable extends StatelessWidget {
         children: List.generate(
             _icons.length,
             (index) => GameCard(
-                icon: Image.asset(
-                    "assets/img/${_icons[index]}.png")) // Emite uma carta para cada ícone da lista
+                  icon: Image.asset("assets/img/${_icons[index]}.png"),
+                  engine: engine,
+                ) // Emite uma carta para cada ícone da lista
             ));
   }
 }

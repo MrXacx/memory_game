@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:memory_game/scripts/engine.dart';
 import 'package:memory_game/widgets/game_table.dart';
 
 void main() {
@@ -42,7 +41,6 @@ class _HomeState extends State<Home> {
   int moves = 0; // Contador de jogadas
   int time = 0; // Contador de tempo
   bool paused = true; // Estado do jogo
-  GameEngine engine = GameEngine(); // Suporte ao funcionamento do jogo
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -101,7 +99,6 @@ class _HomeState extends State<Home> {
         moves = 0;
         time = 0;
         paused = true;
-        engine = GameEngine();
         table = GameTable(icons: icons);
       });
 }
