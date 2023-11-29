@@ -26,16 +26,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   static List<String> icons = [
     // Lista de nomes do ícones
+    'astronaut',
     'bear',
-    'cow',
-    'fox',
-    'jackal',
-    'lion',
-    'monkey',
-    'panda',
-    'parrot',
-    'pig',
-    'sheep'
+    'capybara',
+    'fighter',
+    'greech',
+    'rocket',
+    'ship',
+    'soldier',
+    'spy',
+    'trevor',
   ];
   static GameTable table = GameTable(icons: icons); // Tabuleiro
   int moves = 0; // Contador de jogadas
@@ -79,6 +79,7 @@ class _HomeState extends State<Home> {
           body: Center(
               child: SizedBox(
                   width: 768,
+                  height: 1000,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,

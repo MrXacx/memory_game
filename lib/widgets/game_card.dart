@@ -13,14 +13,17 @@ class GameCard extends StatefulWidget {
 }
 
 class GameCardState extends State<GameCard> {
-  static Image thumbnail = Image.asset('assets/img/cow.png');
+  static Image thumbnail = Image.asset('assets/img/background.png');
   bool fliped = false;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: move,
-      child: fliped ? widget.icon : thumbnail,
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 3),
+      child: InkWell(
+        onTap: move,
+        child: fliped ? widget.icon : thumbnail,
+      ),
     );
   }
 
@@ -35,8 +38,13 @@ class GameCardState extends State<GameCard> {
       if (widget.engine.cardStack.isFull()) {
         // Executa se a pilha encheu após a última adição
         if (!widget.engine.isEquals()) {
-          widget.engine.cardStack.stack.map((e) => e.flip());
-          widget.engine.cardStack.clear();
+          Future.delayed(const Duration(milliseconds: 600), () {
+            List<GameCardState> cards = widget.engine.cardStack.stack;
+
+            cards[0].flip();
+            cards[1].flip();
+            widget.engine.cardStack.clear();
+          });
         }
       }
     }

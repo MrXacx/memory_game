@@ -4,7 +4,7 @@ publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: ">=3.2.0 <4.0.0"
+  sdk: ">=2.19.6 <4.0.0"
 
 dependencies:
   flutter:
@@ -18,13 +18,15 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/img/bear.png
-    - assets/img/cow.png
-    - assets/img/fox.png
-    - assets/img/jackal.png
-    - assets/img/lion.png
-    - assets/img/monkey.png
-    - assets/img/panda.png
-    - assets/img/parrot.png
-    - assets/img/pig.png
-    - assets/img/sheep.png
+    - assets/img/astronaut.jfif
+    - assets/img/bear.jfif
+    - assets/img/capybara.jfif
+    - assets/img/fighter.jfif
+    - assets/img/greech.jfif
+    - assets/img/rocket.jfif
+    - assets/img/ship.jfif
+    - assets/img/soldier.jfif
+    - assets/img/spy.jfif
+    - assets/img/trevor.jfif
+    - assets/img/ways.jfif
+    - assets/img/background.png
