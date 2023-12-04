@@ -19,6 +19,7 @@ class GameTable extends StatelessWidget {
         children: List.generate(
             _icons.length,
             (index) => GameCard(
+                  name: _icons[index],
                   icon: Image.asset("assets/img/${_icons[index]}.jfif"),
                   engine: engine,
                 ) // Emite uma carta para cada ícone da lista

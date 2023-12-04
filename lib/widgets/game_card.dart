@@ -4,9 +4,10 @@ import 'package:memory_game/scripts/engine.dart';
 // ignore: must_be_immutable
 class GameCard extends StatefulWidget {
   final Image icon;
+  final String name;
   final GameEngine engine;
 
-  const GameCard({super.key, required this.icon, required this.engine});
+  const GameCard({super.key, required this.name, required this.icon, required this.engine});
 
   @override
   State<GameCard> createState() => GameCardState();
