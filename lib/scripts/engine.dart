@@ -72,6 +72,7 @@ class GameEngine {
   }
 
   bool hasWinner() => unfindedCouples == 0;
+
 }
 
 class GameCardStack {
@@ -84,7 +85,6 @@ class GameCardStack {
       !isEmpty ? _stack[index] : throw Exception("Pilha vazia");
 
   List<GameCardState> get stack => _stack;
-
   void clear() => _stack.clear();
 
   int get length => _stack.length;
