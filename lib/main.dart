@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:memory_game/widgets/game_table.dart';
+import 'package:memory_game/widgets/table.dart';
 
 void main() {
   runApp(const App());
@@ -37,8 +37,8 @@ class _HomeState extends State<Home> {
     'spy',
     'trevor',
   ];
-  static GameTable table = GameTable(icons: icons); // Tabuleiro
-  int moves = 0; // Contador de jogadas
+
+  GameTable table = GameTable(icons: icons);
   int time = 0; // Contador de tempo
   bool paused = true; // Estado do jogo
 
@@ -64,7 +64,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Número de tenttivas: $moves",
+                    "Número de tenttivas: ${table.moves}",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
-                    children: [Expanded(child: table.build(context))],
+                    children: [Expanded(child: table)],
                   ))),
           persistentFooterAlignment: AlignmentDirectional.bottomCenter,
           persistentFooterButtons: [
@@ -97,7 +97,6 @@ class _HomeState extends State<Home> {
   void turnPause() => setState(() => paused = !paused);
 
   void reset() => setState(() {
-        moves = 0;
         time = 0;
         paused = true;
         table = GameTable(icons: icons);
