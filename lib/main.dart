@@ -26,21 +26,18 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   static List<String> icons = [
     // Lista de nomes do ícones
-    'astronaut',
-    'bear',
-    'capybara',
-    'fighter',
-    'greech',
-    'rocket',
-    'ship',
-    'soldier',
-    'spy',
-    'trevor',
+    'astronaut', 'bear', 'capybara', 'fighter', 'greech', 'rocket', 'ship',
+    'soldier', 'spy', 'trevor',
   ];
 
-  GameTable table = GameTable(icons: icons);
+  late GameTable table;
+  int moves = 0;
   int time = 0; // Contador de tempo
   bool paused = true; // Estado do jogo
+
+  _HomeState() {
+    table = GameTable(icons: icons, onPressed: _increment);
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -64,7 +61,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Número de tenttivas: ${table.moves}",
+                    "Número de tenttivas: $moves",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -95,10 +92,14 @@ class _HomeState extends State<Home> {
 
   void countTime() => setState(() => ++time);
   void turnPause() => setState(() => paused = !paused);
-
   void reset() => setState(() {
         time = 0;
+        moves = 0;
         paused = true;
-        table = GameTable(icons: icons);
+        table.state.reInitialize();
+      });
+
+  void _increment() => setState(() {
+        moves++;
       });
 }

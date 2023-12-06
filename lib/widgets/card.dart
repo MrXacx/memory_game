@@ -5,14 +5,14 @@ import 'package:memory_game/widgets/table.dart';
 class GameCard extends StatefulWidget {
   final Image icon;
   final GameTable observable;
-  final Function onClick;
+  final Function onTapFunction;
   final GameCardState _state = GameCardState();
 
   GameCard({
     super.key,
     required this.icon,
     required this.observable,
-    required this.onClick,
+    required this.onTapFunction,
   });
 
   GameCardState get state => _state;
@@ -24,19 +24,14 @@ class GameCard extends StatefulWidget {
 
 class GameCardState extends State<GameCard> {
   static Image thumbnail = Image.asset('assets/img/background.png');
-  bool fliped = true;
+  bool fliped = false;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 3, horizontal: 8),
       child: InkWell(
-        onTap: () {
-          setState(() {
-            widget.onClick();
-            move();
-          });
-        },
+        onTap: move,
         child: fliped ? widget.icon : thumbnail,
       ),
     );
@@ -44,10 +39,13 @@ class GameCardState extends State<GameCard> {
 
   Future flip() => Future.delayed(const Duration(milliseconds: 200),
       () => setState(() => fliped = !fliped));
-  void reset() => fliped = false;
+
   void move() {
     var engine = widget.observable.engine;
-    // Executa se a carta não estiver virada e se a pilha não estiver cheia
-    engine.move(this); // altera o estado da cara
+    if (!fliped) {
+      // Executa se a carta não estiver virada
+      engine.move(this); // altera o estado da cara
+      //widget.onTapFunction();
+    }
   }
 }
