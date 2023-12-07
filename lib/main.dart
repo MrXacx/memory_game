@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:memory_game/widgets/table.dart';
 
 void main() {
@@ -35,6 +36,7 @@ class _HomeState extends State<Home> {
   late GameTable table;
   int moves = 0;
   int time = 0; // Contador de tempo
+  final formatter = NumberFormat('00');
 
   _HomeState() {
     table = GameTable(icons: icons, onPressed: _incrementMoves);
@@ -69,7 +71,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                   Text(
-                    "$time",
+                    formatTime(),
                     style: const TextStyle(color: Colors.white),
                   ),
                 ]),
@@ -87,7 +89,8 @@ class _HomeState extends State<Home> {
           persistentFooterButtons: [
             IconButton(
                 onPressed: turnPause,
-                icon: Icon(table.engine.isPaused ? Icons.arrow_forward : Icons.pause)),
+                icon: Icon(
+                    table.engine.isPaused ? Icons.arrow_forward : Icons.pause)),
             IconButton(onPressed: reset, icon: const Icon(Icons.refresh)),
           ]);
 
@@ -95,16 +98,27 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      if(!table.engine.isPaused) {
+      if (!table.engine.isPaused) {
         setState(() => ++time);
       }
     });
   }
 
   void turnPause() => setState(() => table.engine.turnPause());
-  void reset() => setState(() => table.state.reInitialize());
+  void reset() => setState(() {
+        table.state.reInitialize();
+      });
 
   void _incrementMoves() => setState(() {
         moves++;
       });
+
+  String formatTime() {
+    var hours = time ~/ 3600;
+    var minutes = (time % 3600) ~/ 60;
+    var seconds = time % 60;
+
+    return (hours > 0 ? "${formatter.format(hours)}:" : "") +
+        "${formatter.format(minutes)}:${formatter.format(seconds)}";
+  }
 }
