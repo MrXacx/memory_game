@@ -61,7 +61,8 @@ class GameTableState extends State<GameTable> {
   @override
   Widget build(BuildContext context) {
     widget._observers.shuffle();
-    showCards();
+    showCards()
+    .then((value) => widget.engine.turnPause());
     return GridView.count(
       crossAxisCount: 5,
       children: widget._observers,

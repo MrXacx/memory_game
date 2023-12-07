@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:memory_game/widgets/table.dart';
 
@@ -33,7 +35,6 @@ class _HomeState extends State<Home> {
   late GameTable table;
   int moves = 0;
   int time = 0; // Contador de tempo
-  bool paused = true; // Estado do jogo
 
   _HomeState() {
     table = GameTable(icons: icons, onPressed: _incrementMoves);
@@ -86,18 +87,22 @@ class _HomeState extends State<Home> {
           persistentFooterButtons: [
             IconButton(
                 onPressed: turnPause,
-                icon: Icon(paused == true ? Icons.arrow_forward : Icons.pause)),
+                icon: Icon(table.engine.isPaused ? Icons.arrow_forward : Icons.pause)),
             IconButton(onPressed: reset, icon: const Icon(Icons.refresh)),
           ]);
 
-  void countTime() => setState(() => ++time);
-  void turnPause() => setState(() => paused = !paused);
-  void reset() => setState(() {
-        time = 0;
-        moves = 0;
-        paused = true;
-        table.state.reInitialize();
-      });
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      if(!table.engine.isPaused) {
+        setState(() => ++time);
+      }
+    });
+  }
+
+  void turnPause() => setState(() => table.engine.turnPause());
+  void reset() => setState(() => table.state.reInitialize());
 
   void _incrementMoves() => setState(() {
         moves++;

@@ -2,7 +2,7 @@ import 'package:memory_game/widgets/card.dart';
 import 'package:memory_game/widgets/table.dart';
 
 class GameEngine {
-  bool _paused = false;
+  bool _paused = true;
   final GameTable _table;
   late int unfindedCouples;
   final _cardStack =
