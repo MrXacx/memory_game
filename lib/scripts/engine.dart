@@ -27,28 +27,33 @@ class GameEngine {
   Future flip(GameCardState selectedCard) => selectedCard.flip();
 
   void flipAll() {
-    _cardStack._stack.forEach((e) => flip(e));
+    while (!_cardStack.isEmpty) {
+      flip(_cardStack.pop());
+    }
   }
 
-  void move(GameCardState selectedCard) {
+  bool move(GameCardState selectedCard) {
     if (!selectedCard.fliped && isEnableToMove) {
-      flip(selectedCard).then((value) {
-        _cardStack.add(selectedCard);
+      flip(selectedCard);
+      _cardStack.add(selectedCard);
 
-        if (_cardStack.isFull) {
-          // Executa se a pilha encheu
+      if (_cardStack.isFull) {
+        // Executa se a pilha encheu
+        Future.delayed(const Duration(milliseconds: 1000), () {
           if (isEquals) {
-            _cardStack.clear();
             --unfindedCouples;
-            if (hasWinner()) {
-              _table.state.reInitialize;
-            }
+            _cardStack.clear();
+
+            if (hasWinner()) _table.state.reInitialize;
           } else {
-            Future.delayed(const Duration(milliseconds: 300), flipAll);
+            flipAll();
           }
-        }
-      });
+        });
+        return true;
+      }
     }
+
+    return false;
   }
 
   bool hasWinner() => unfindedCouples == 0;

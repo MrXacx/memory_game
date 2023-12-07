@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
   bool paused = true; // Estado do jogo
 
   _HomeState() {
-    table = GameTable(icons: icons, onPressed: _increment);
+    table = GameTable(icons: icons, onPressed: _incrementMoves);
   }
 
   @override
@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Número de tenttivas: $moves",
+                    "Tentativas: $moves",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
         table.state.reInitialize();
       });
 
-  void _increment() => setState(() {
+  void _incrementMoves() => setState(() {
         moves++;
       });
 }

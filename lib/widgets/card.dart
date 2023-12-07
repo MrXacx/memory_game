@@ -44,7 +44,10 @@ class GameCardState extends State<GameCard> {
     var engine = widget.observable.engine;
     if (!fliped) {
       // Executa se a carta não estiver virada
-      engine.move(this); // altera o estado da cara
+      if (engine.move(this)) { // altera o estado da cara
+        widget.onTapFunction();
+      }
+      
       //widget.onTapFunction();
     }
   }
