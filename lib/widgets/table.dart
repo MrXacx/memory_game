@@ -12,7 +12,7 @@ class GameTable extends StatefulWidget {
 
   GameTable(
       {super.key, required List<String> icons, required Function onPressed}) {
-    _engine = GameEngine(this, icons.length);
+    _engine = GameEngine(icons.length);
     _icons = [...icons, ...icons];
 
     _observers = List.generate(
@@ -61,8 +61,7 @@ class GameTableState extends State<GameTable> {
   @override
   Widget build(BuildContext context) {
     widget._observers.shuffle();
-    showCards()
-    .then((value) => widget.engine.turnPause());
+    showCards().then((value) => widget.engine.turnPause());
     return GridView.count(
       crossAxisCount: 5,
       children: widget._observers,

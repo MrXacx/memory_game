@@ -1,14 +1,12 @@
 import 'package:memory_game/widgets/card.dart';
-import 'package:memory_game/widgets/table.dart';
 
 class GameEngine {
   bool _paused = true;
-  final GameTable _table;
   late int unfindedCouples;
   final _cardStack =
       GameCardStack(); // Pilha contendo as duas cartas escolhidas
 
-  GameEngine(this._table, int coupleNumber) {
+  GameEngine(int coupleNumber) {
     unfindedCouples = coupleNumber * 2;
   }
 
@@ -43,8 +41,6 @@ class GameEngine {
           if (isEquals) {
             --unfindedCouples;
             _cardStack.clear();
-
-            if (hasWinner()) _table.state.reInitialize;
           } else {
             flipAll();
           }

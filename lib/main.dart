@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memory_game/widgets/table.dart';
@@ -81,10 +80,9 @@ class _HomeState extends State<Home> {
                   width: 768,
                   height: 1000,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [Expanded(child: table)],
-                  ))),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [Expanded(child: _buildAlert(context))]))),
           persistentFooterAlignment: AlignmentDirectional.bottomCenter,
           persistentFooterButtons: [
             IconButton(
@@ -93,6 +91,43 @@ class _HomeState extends State<Home> {
                     table.engine.isPaused ? Icons.arrow_forward : Icons.pause)),
             IconButton(onPressed: reset, icon: const Icon(Icons.refresh)),
           ]);
+
+  Future get win => showDialog(context: context, builder: _buildAlert);
+
+  Widget _buildAlert(BuildContext context) => AlertDialog(
+        title: const Text('Popup example'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const <Widget>[
+            Text("Hello"),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => dispose(),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.resolveWith(
+                    (s) => const Color.fromRGBO(255, 255, 255, 0.1))),
+            child: const Text(
+              'Encerrar aplicativo',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          TextButton(
+            onPressed: () => dispose(),
+            style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.resolveWith((s) => Colors.purple)),
+            child: const Text(
+              'Nova partida',
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      );
 
   @override
   void initState() {
@@ -118,7 +153,6 @@ class _HomeState extends State<Home> {
     var minutes = (time % 3600) ~/ 60;
     var seconds = time % 60;
 
-    return (hours > 0 ? "${formatter.format(hours)}:" : "") +
-        "${formatter.format(minutes)}:${formatter.format(seconds)}";
+    return "${hours > 0 ? "${formatter.format(hours)}:" : ""}${formatter.format(minutes)}:${formatter.format(seconds)}";
   }
 }
