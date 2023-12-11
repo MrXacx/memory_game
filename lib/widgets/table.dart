@@ -11,8 +11,8 @@ class GameTable extends StatefulWidget {
   late GameTableState state;
 
   GameTable(
-      {super.key, required List<String> icons, required Function onPressed}) {
-    _engine = GameEngine(icons.length);
+      {super.key, required List<String> icons, required Function onPressed,required Function onWin}) {
+    _engine = GameEngine(icons.length, onWin);
     _icons = [...icons, ...icons];
 
     _observers = List.generate(

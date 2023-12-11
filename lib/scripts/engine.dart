@@ -5,8 +5,9 @@ class GameEngine {
   late int unfindedCouples;
   final _cardStack =
       GameCardStack(); // Pilha contendo as duas cartas escolhidas
+  final Function onWin;
 
-  GameEngine(int coupleNumber) {
+  GameEngine(int coupleNumber, this.onWin) {
     unfindedCouples = coupleNumber * 2;
   }
 
@@ -41,6 +42,10 @@ class GameEngine {
           if (isEquals) {
             --unfindedCouples;
             _cardStack.clear();
+
+            if (hasWinner()) {
+              onWin();
+            }
           } else {
             flipAll();
           }

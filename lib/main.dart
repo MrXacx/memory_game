@@ -1,9 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memory_game/widgets/table.dart';
+import 'package:memory_game/widgets/toast.dart';
+import 'package:desktop_window/desktop_window.dart';
 
 void main() {
+    WidgetsFlutterBinding.ensureInitialized();
+
+  if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    DesktopWindow.setMaxWindowSize(const Size(1024, 1366));
+    DesktopWindow.setMinWindowSize(const Size(414, 896));
+  }
+
   runApp(const App());
 }
 
@@ -35,104 +45,80 @@ class _HomeState extends State<Home> {
   late GameTable table;
   int moves = 0;
   int time = 0; // Contador de tempo
+  late Timer timer;
   final formatter = NumberFormat('00');
 
   _HomeState() {
-    table = GameTable(icons: icons, onPressed: _incrementMoves);
+    table = GameTable(
+        icons: icons,
+        onPressed: _incrementMoves,
+        onWin: () {
+          GameToast().show(context, 5);
+          Future.delayed(const Duration(seconds: 5), () {
+            reset();
+          });
+        });
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Jogo da Memória',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.5),
-            ),
-            centerTitle: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(5)),
-            ),
-          ),
-          bottomSheet: BottomAppBar(
-            surfaceTintColor: Theme.of(context).colorScheme.inversePrimary,
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Tentativas: $moves",
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
-                  ),
-                  Text(
-                    formatTime(),
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ]),
-          ),
-          body: Center(
-              child: SizedBox(
-                  width: 768,
-                  height: 1000,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [Expanded(child: _buildAlert(context))]))),
-          persistentFooterAlignment: AlignmentDirectional.bottomCenter,
-          persistentFooterButtons: [
-            IconButton(
-                onPressed: turnPause,
-                icon: Icon(
-                    table.engine.isPaused ? Icons.arrow_forward : Icons.pause)),
-            IconButton(onPressed: reset, icon: const Icon(Icons.refresh)),
-          ]);
-
-  Future get win => showDialog(context: context, builder: _buildAlert);
-
-  Widget _buildAlert(BuildContext context) => AlertDialog(
-        title: const Text('Popup example'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: const <Widget>[
-            Text("Hello"),
-          ],
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => dispose(),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.resolveWith(
-                    (s) => const Color.fromRGBO(255, 255, 255, 0.1))),
-            child: const Text(
-              'Encerrar aplicativo',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          TextButton(
-            onPressed: () => dispose(),
-            style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.resolveWith((s) => Colors.purple)),
-            child: const Text(
-              'Nova partida',
-              style: TextStyle(
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Jogo da Memória',
+            style: TextStyle(
                 color: Colors.white,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 1.5),
+          ),
+          centerTitle: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(5)),
+          ),
+        ),
+        bottomSheet: BottomAppBar(
+          surfaceTintColor: Theme.of(context).colorScheme.inversePrimary,
+          padding: const EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              "Tentativas: $moves",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 15,
               ),
             ),
-          ),
-        ],
-      );
+            Text(
+              formatTime(),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ]),
+        ),
+        body: Center(
+            child: SizedBox(
+          width: 768,
+          height: 1000,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(child: table),
+              ]),
+        )),
+        persistentFooterAlignment: AlignmentDirectional.bottomCenter,
+        persistentFooterButtons: [
+          IconButton(
+              onPressed: turnPause,
+              icon: Icon(
+                  table.engine.isPaused ? Icons.arrow_forward : Icons.pause)),
+          IconButton(onPressed: reset, icon: const Icon(Icons.refresh)),
+        ]);
+  }
 
   @override
   void initState() {
     super.initState();
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!table.engine.isPaused) {
         setState(() => ++time);
       }
@@ -141,6 +127,7 @@ class _HomeState extends State<Home> {
 
   void turnPause() => setState(() => table.engine.turnPause());
   void reset() => setState(() {
+        timer.cancel();
         table.state.reInitialize();
       });
 
