@@ -8,7 +8,7 @@ class GameEngine {
   final Function onWin;
 
   GameEngine(int coupleNumber, this.onWin) {
-    unfindedCouples = coupleNumber * 2;
+    unfindedCouples = coupleNumber;
   }
 
   bool get isEquals =>
@@ -45,6 +45,8 @@ class GameEngine {
 
             if (hasWinner()) {
               onWin();
+            } else {
+              print(unfindedCouples);
             }
           } else {
             flipAll();

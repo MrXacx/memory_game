@@ -7,7 +7,7 @@ import 'package:memory_game/widgets/toast.dart';
 import 'package:desktop_window/desktop_window.dart';
 
 void main() {
-    WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     DesktopWindow.setMaxWindowSize(const Size(1024, 1366));
@@ -53,6 +53,7 @@ class _HomeState extends State<Home> {
         icons: icons,
         onPressed: _incrementMoves,
         onWin: () {
+          turnPause();
           GameToast().show(context, 5);
           Future.delayed(const Duration(seconds: 5), () {
             reset();
