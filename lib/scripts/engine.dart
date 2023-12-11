@@ -2,13 +2,12 @@ import 'package:memory_game/widgets/card.dart';
 
 class GameEngine {
   bool _paused = true;
-  late int unfindedCouples;
-  final _cardStack =
-      GameCardStack(); // Pilha contendo as duas cartas escolhidas
+  late int indefintePairs;
+  final _cardStack = GameCardStack(); // Pilha contendo as duas cartas escolhidas
   final Function onWin;
 
   GameEngine(int coupleNumber, this.onWin) {
-    unfindedCouples = coupleNumber;
+    indefintePairs = coupleNumber;
   }
 
   bool get isEquals =>
@@ -40,13 +39,13 @@ class GameEngine {
         // Executa se a pilha encheu
         Future.delayed(const Duration(milliseconds: 1000), () {
           if (isEquals) {
-            --unfindedCouples;
+            --indefintePairs;
             _cardStack.clear();
 
             if (hasWinner()) {
               onWin();
             } else {
-              print(unfindedCouples);
+              print(indefintePairs);
             }
           } else {
             flipAll();
@@ -59,7 +58,7 @@ class GameEngine {
     return false;
   }
 
-  bool hasWinner() => unfindedCouples == 0;
+  bool hasWinner() => indefintePairs == 0;
 }
 
 class GameCardStack {

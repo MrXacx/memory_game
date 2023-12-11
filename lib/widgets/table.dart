@@ -7,19 +7,18 @@ import 'card.dart';
 class GameTable extends StatefulWidget {
   late GameEngine _engine; // Suporte ao funcionamento do jogo
   late List<GameCard> _observers;
-  late final List<String> _icons;
   late GameTableState state;
 
   GameTable(
       {super.key, required List<String> icons, required Function onPressed,required Function onWin}) {
     _engine = GameEngine(icons.length, onWin);
-    _icons = [...icons, ...icons];
+    icons = [...icons, ...icons];
 
     _observers = List.generate(
-      _icons.length,
+      icons.length,
       (index) => GameCard(
         // Emite uma carta para cada ícone da lista
-        icon: Image.asset("assets/img/${_icons[index]}.jfif"),
+        icon: Image.asset("assets/img/${icons[index]}.jfif"),
         observable: this,
         onTapFunction: onPressed,
       ),
