@@ -44,8 +44,6 @@ class GameEngine {
 
             if (hasWinner()) {
               onWin();
-            } else {
-              print(indefintePairs);
             }
           } else {
             flipAll();
@@ -67,20 +65,15 @@ class GameCardStack {
   void add(GameCardState card) =>
       _stack.length < 2 ? _stack.add(card) : throw Exception("Pilha cheia");
 
-  GameCardState get(int index) =>
-      !isEmpty ? _stack[index] : throw Exception("Pilha vazia");
-
-  List<GameCardState> get stack => _stack;
+  GameCardState get(int index) => !isEmpty ? _stack[index] : throw Exception("Pilha vazia");
 
   void clear() => _stack.clear();
 
   int get length => _stack.length;
-
   bool get isFull => length == 2;
   bool get isEmpty => _stack.isEmpty;
 
-  GameCardState pop() =>
-      !isEmpty ? _stack.removeLast() : throw Exception("Pilha vazia");
+  GameCardState pop() => !isEmpty ? _stack.removeLast() : throw Exception("Pilha vazia");
 
   GameCardState get last => _stack.last;
 }

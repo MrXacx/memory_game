@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:memory_game/widgets/table.dart';
 import 'package:memory_game/widgets/toast.dart';
-import 'package:desktop_window/desktop_window.dart';
+//import 'package:desktop_window/desktop_window.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     DesktopWindow.setMaxWindowSize(const Size(1024, 1366));
     DesktopWindow.setMinWindowSize(const Size(414, 896));
-  }
+  }*/
 
   runApp(const App());
 }
@@ -111,7 +111,7 @@ class _HomeState extends State<Home> {
           IconButton(
               onPressed: turnPause,
               icon: Icon(
-                  table.engine.isPaused ? Icons.arrow_forward : Icons.pause)),
+                  table.engine.isPaused ? Icons.play_arrow_rounded : Icons.pause)),
           IconButton(onPressed: reset, icon: const Icon(Icons.refresh)),
         ]);
   }
